@@ -1,6 +1,9 @@
-  import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutterfoundation/controllers/PMController.dart';
 import 'package:flutterfoundation/views/ProductView.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../entities/Product.dart';
 
@@ -20,15 +23,30 @@ class ProductCreate extends StatefulWidget {
 }
 
 class _ProductCreate extends State<ProductCreate> {
+
   late String _id, _name;
   late double _price;
+  File? image;
 
   PMController pmController;
 
   _ProductCreate(this.pmController);
 
+
+  Future openCamera() async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+    image = File(pickedImage!.path);
+    print(image.toString());
+  }
+
+  Future openGallery() async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    image = File(pickedImage!.path);
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: SafeArea(
       child: Padding(
@@ -61,13 +79,24 @@ class _ProductCreate extends State<ProductCreate> {
                 });
               },
             ),
+            image != null ? ClipOval(
+              child: Image.file(image!,fit: BoxFit.fill,),
+            ): SizedBox(
+              width: 100,
+              height: 100,
+              child: CircleAvatar (backgroundColor: Colors.black,),
+            ),
+            IconButton(onPressed: (){
+              openCamera();
+            }, icon: Icon(Icons.add)),
             ElevatedButton(
                 onPressed: () {
-                  var p = Product(id: _id, name: _name, price: _price);
+                  var p = Product(id: _id, name: _name, price: _price, image: image!);
                   pmController.addProduct(p);
                   Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => ProductView(pmController: pmController)));
                 },
-                child: Text('Submit'))
+                child: Text('Submit')),
+
           ],
         ),
       ),

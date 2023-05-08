@@ -7,11 +7,11 @@ import 'package:flutterfoundation/entities/Product.dart';
 import 'package:flutterfoundation/models/ProductManager.dart';
 
 void main() {
-
-  var product = Product(id: 'id', name: 'name', price: 4);
-  var product1 = Product(id: 'id', name: 'name', price: 4);
-  var product2 = Product(id: 'id', name: 'name', price: 4);
-  var product3 = Product(id: 'id', name: 'name', price: 4);
+  //
+  // var product = Product(id: 'id', name: 'name', price: 4);
+  // var product1 = Product(id: 'id', name: 'name', price: 4);
+  // var product2 = Product(id: 'id', name: 'name', price: 4);
+  // var product3 = Product(id: 'id', name: 'name', price: 4);
   // print(product);
 
   var pm = ProductManager();
