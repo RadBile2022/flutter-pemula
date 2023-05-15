@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfoundation/controllers/PMController.dart';
-import 'package:flutterfoundation/entities/Product.dart';
-import 'package:flutterfoundation/models/ProductManager.dart';
+
 
 // void main() {
 //   var product = Product(id: 'id', name: 'name', price: 4);

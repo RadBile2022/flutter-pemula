@@ -1,132 +1,78 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfoundation/views/ProductCreate.dart';
-import 'package:flutterfoundation/views/ProductView.dart';
-import 'package:flutterfoundation/views/ProductCreate.dart';
+import 'package:flutterfoundation/controllers/Shop.dart';
+import 'package:flutterfoundation/views/CupertinoApps.dart';
+import 'package:flutterfoundation/views/product/product_create.dart';
+import 'package:flutterfoundation/views/product/product_create.dart';
 import 'package:flutterfoundation/controllers/PMController.dart';
-import 'package:flutterfoundation/entities/Product.dart';
-import 'package:flutterfoundation/models/ProductManager.dart';
+import 'package:flutterfoundation/views/tab_bar.dart';
+
+import 'controllers/CMController.dart';
 
 void main() {
   //
-  // var product = Product(id: 'id', name: 'name', price: 4);
-  // var product1 = Product(id: 'id', name: 'name', price: 4);
-  // var product2 = Product(id: 'id', name: 'name', price: 4);
-  // var product3 = Product(id: 'id', name: 'name', price: 4);
-  // print(product);
+  var product1 = Product.instance(id: '1', name: 'Nasi Pecel', price: 14, image: null);
+  var product2 = Product.instance(id: '2', name: 'Soto Ayam', price: 12, image: null);
+  var product3 = Product.instance(id: '3', name: 'Rujak Buah', price: 7, image: null);
 
-  var pm = ProductManager();
-  var pmController = PMController(pm);
-  // pmController.addProduct(product);
-  // pmController.addProduct(product1);
-  // pmController.addProduct(product2);
-  // pmController.addProduct(product3);
+  var pms = ProductManager();
+  var pmController = PMController(pms);
+  pmController.addProduct(product1);
+  pmController.addProduct(product2);
+  pmController.addProduct(product3);
+  pmController.addProduct(product1);
+  pmController.addProduct(product2);
+  pmController.addProduct(product3);
+  pmController.addProduct(product1);
+  pmController.addProduct(product2);
+  pmController.addProduct(product3);
+  pmController.addProduct(product1);
+  pmController.addProduct(product2);
+  pmController.addProduct(product3);
   // print(pmController.productList);
 
+  var customer1 = Customer.instance('1', 'Radar', 'Langsep');
+  var customer2 = Customer.instance('2', 'Ahdi', 'Mergan');
+  var cms = CustomerManager();
+  var cmController = CMController(cms);
+  cmController.addCustomer(customer1);
+  cmController.addCustomer(customer2);
+  // print(cmController.costumerList);
+  // print(cmController.findCustomerById('id'));
 
-  runApp(MyApp(pmController: pmController));
+  var shop = Shop('GFT Store');
+  shop.pm = pms;
+  shop.cm = cms;
+  // pmController: pmController
+  runApp(MyApp(shop: shop,));
 
 }
 
 
 
 class MyApp extends StatelessWidget {
-  final PMController pmController;
+  final Shop shop;
+  // final PMController pmController;
+  // , required this.pmController
 
 
-  const MyApp({super.key, required this.pmController});
+  const MyApp({super.key , required this.shop});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(),
-      home: ProductView(pmController: pmController,)
+       home: TabBars(shop),
     );
-  }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
     //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    // return CupertinoApp(
+    //   title: 'Flutter Demo',
+    //   theme: CupertinoThemeData(
+    //     primaryColor: CupertinoColors.systemOrange
+    //   ),
+    //   home: CupertinoApps(pmController: pmController,)
+    // );
   }
 }
+
